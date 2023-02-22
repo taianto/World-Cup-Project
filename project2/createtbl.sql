@@ -15,25 +15,15 @@ CREATE TABLE Stadium
  capacity INTEGER,
  PRIMARY KEY (stadium_name));
 
-CREATE TABLE Client
-(email VARCHAR(30) NOT NULL,
- first_name VARCHAR(30) NOT NULL,
- last_name VARCHAR(15) NOT NULL,
- PRIMARY KEY (email));
-
-CREATE TABLE Team
-(country VARCHAR(15) NOT NULL,
- name VARCHAR(30) NOT NULL,
- website_url VARCHAR(15) NOT NULL,
- group VARCHAR(1) NOT NULL,
- PRIMARY KEY (country));
-
-CREATE TABLE Referee
-(referee_id INTEGER NOT NULL,
- name VARCHAR(30) NOT NULL,
- experience INTEGER,
- nationality VARCHAR(15),
- PRIMARY KEY (referee_id));
+CREATE TABLE Match
+(match_id INTEGER NOT NULL,
+ date DATE NOT NULL,
+ time INTEGER NOT NULL,
+ round VARCHAR(15) NOT NULL,
+ stadium_name NOT NULL,
+ PRIMARY KEY (match_id),
+ FOREIGN KEY (stadium_name)
+     REFERENCES Stadium);
 
 CREATE TABLE Seat
 (seat_id VARCHAR(5) NOT NULL,
@@ -48,11 +38,25 @@ CREATE TABLE Ticket
  match_id INTEGER NOT NULL,
  price FLOAT,
  status VARCHAR(10) NOT NULL,
- PRIMARY KEY (seat_id, stadium_name,match_id),
+ PRIMARY KEY (seat_id, stadium_name, match_id),
  FOREIGN KEY  (seat_id, stadium_name)
      REFERENCES Seat,
  FOREIGN KEY (match_id)
      REFERENCES Match);
+
+CREATE TABLE Client
+(email VARCHAR(30) NOT NULL,
+ first_name VARCHAR(30) NOT NULL,
+ last_name VARCHAR(15) NOT NULL,
+ PRIMARY KEY (email));
+
+CREATE TABLE Receipt
+(transaction_id INTEGER NOT NULL,
+ total_cost FLOAT NOT NULL,
+ email VARCHAR(30) NOT NULL,
+ PRIMARY KEY (transaction_id),
+ FOREIGN KEY (email)
+     REFERENCES Client);
 
 CREATE TABLE Transaction
 (seat_id VARCHAR(5) NOT NULL,
@@ -65,30 +69,12 @@ CREATE TABLE Transaction
  FOREIGN KEY (transaction_id)
      REFERENCES Receipt);
 
-CREATE TABLE Receipt
-(transaction_id INTEGER NOT NULL,
- total_cost FLOAT NOT NULL,
- email VARCHAR(30) NOT NULL,
- PRIMARY KEY (transaction_id),
- FOREIGN KEY (email)
-     REFERENCES Client);
-
-CREATE TABLE Match
-(match_id INTEGER NOT NULL,
- date DATE NOT NULL,
- time INTEGER NOT NULL,
- round VARCHAR(15) NOT NULL,
- stadium_name NOT NULL,
- PRIMARY KEY (match_id),
- FOREIGN KEY (stadium_name)
-     REFERENCES Stadium);
-
-CREATE TABLE Played_Match
-(match_id INTEGER NOT NULL,
- duration TIME NOT NULL,
- PRIMARY KEY (match_id),
- FOREIGN KEY (match_id)
-     REFERENCES Match);
+CREATE TABLE Team
+(country VARCHAR(15) NOT NULL,
+ name VARCHAR(30) NOT NULL,
+ website_url VARCHAR(15) NOT NULL,
+ group VARCHAR(1) NOT NULL,
+ PRIMARY KEY (country));
 
 CREATE TABLE Match_Participants
 (match_id INTEGER NOT NULL,
@@ -99,15 +85,12 @@ CREATE TABLE Match_Participants
  FOREIGN KEY (country)
      REFERENCES Team);
 
-CREATE TABLE Player
-(country VARCHAR(15) NOT NULL,
- shirt_num INTEGER NOT NULL,
- name VARCHAR(30) NOT NULL,
- dob DATE NOT NULL,
- general_position VARCHAR(15) NOT NULL,
- PRIMARY KEY (country, shirt_num),
- FOREIGN KEY (country)
-     REFERENCES Team);
+CREATE TABLE Played_Match
+(match_id INTEGER NOT NULL,
+ duration TIME NOT NULL,
+ PRIMARY KEY (match_id),
+ FOREIGN KEY (match_id)
+     REFERENCES Match);
 
 CREATE TABLE Player
 (country VARCHAR(15) NOT NULL,
@@ -128,15 +111,12 @@ CREATE TABLE Coach
  FOREIGN KEY (country)
      REFERENCES Team);
 
-CREATE TABLE Refereeship
+CREATE TABLE Referee
 (referee_id INTEGER NOT NULL,
- match_id INTEGER NOT NULL,
- role VARCHAR(15) NOT NULL,
- PRIMARY KEY (referee_id, match_id),
- FOREIGN KEY (referee_id)
-     REFERENCES Referee,
- FOREIGN KEY (match_id)
-     REFERENCES Match);
+ name VARCHAR(30) NOT NULL,
+ experience INTEGER,
+ nationality VARCHAR(15),
+ PRIMARY KEY (referee_id));
 
 CREATE TABLE PlaysIn
 (country VARCHAR(15) NOT NULL,
@@ -164,20 +144,42 @@ CREATE TABLE Goal
  FOREIGN KEY (country, shirt_num)
      REFERENCES Player);
 
+CREATE TABLE Refereeship
+(referee_id INTEGER NOT NULL,
+ match_id INTEGER NOT NULL,
+ role VARCHAR(15) NOT NULL,
+ PRIMARY KEY (referee_id, match_id),
+ FOREIGN KEY (referee_id)
+     REFERENCES Referee,
+ FOREIGN KEY (match_id)
+     REFERENCES Played_Match);
+
 CREATE TABLE Booking
-(country VARCHAR(15) NOT NULL,
+(match_id INTEGER NOT NULL,
+ occurrence INTEGER NOT NULL,
+ country VARCHAR(15) NOT NULL,
  shirt_num INTEGER NOT NULL,
  referee_id INTEGER NOT NULL,
- match_id INTEGER NOT NULL,
  is_red INTEGER NOT NULL,
- yellow_occurance INTEGER,
- PRIMARY KEY (country, shirt_num, referee_id, match_id),
+ yellow_occurrance INTEGER,
+ PRIMARY KEY (country, occurrence),
  FOREIGN KEY (country, shirt_num)
      REFERENCES Player,
  FOREIGN KEY (referee_id)
      REFERENCES Referee,
  FOREIGN KEY (match_id)
      REFERENCES Played_Match);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
