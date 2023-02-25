@@ -1,0 +1,16 @@
+-- Write a SQL query that lists the name, shirt number and country
+-- of all players that have played in all matches of their teams.
+
+SELECT TABLE2.NAME, TABLE2.SHIRT_NUM, TABLE2.COUNTRY FROM
+(SELECT COUNTRY, count(COUNTRY) countrymax FROM
+MATCH_PARTICIPANTS
+WHERE MATCH_ID IN (select MATCH_ID from PLAYED_MATCH)
+GROUP BY COUNTRY) table1
+JOIN
+(SELECT PLAYSIN.COUNTRY,PLAYSIN.SHIRT_NUM,count(MATCH_ID) playermax, PLAYER.NAME FROM
+    PLAYSIN JOIN PLAYER ON PLAYER.SHIRT_NUM = PLAYSIN.SHIRT_NUM AND PLAYER.COUNTRY = PLAYSIN.COUNTRY
+ group by PLAYSIN.COUNTRY, PLAYSIN.SHIRT_NUM, PLAYER.NAME
+) table2
+ON table1.COUNTRY = table2.COUNTRY
+WHERE countrymax = playermax
+;
