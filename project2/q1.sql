@@ -1,4 +1,4 @@
-Select * from
+Select MATCH.STADIUM_NAME, LOCATION, DATE from
     Stadium join Match on STADIUM.STADIUM_NAME = MATCH.STADIUM_NAME
 where MATCH_ID in
 
