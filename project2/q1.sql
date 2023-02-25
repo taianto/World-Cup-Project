@@ -4,7 +4,7 @@ WHERE MATCH_ID IN
 
 (SELECT match_id FROM
       Player JOIN Goal ON match_id
-  WHERE player.name = 'Christine Sinclair'
+  WHERE player.name = 'Christine Sinclair' and PLAYER.COUNTRY = GOAL.COUNTRY
 
   GROUP BY match_id)
 ;
