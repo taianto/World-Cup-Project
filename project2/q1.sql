@@ -1,10 +1,10 @@
-Select MATCH.STADIUM_NAME, LOCATION, DATE from
-    Stadium join Match on STADIUM.STADIUM_NAME = MATCH.STADIUM_NAME
-where MATCH_ID in
+SELECT MATCH.STADIUM_NAME, LOCATION, DATE FROM
+    Stadium JOIN Match ON STADIUM.STADIUM_NAME = MATCH.STADIUM_NAME
+WHERE MATCH_ID IN
 
-(Select match_id from
-      Player join Goal on match_id
-  Where player.name = 'Christine Sinclair'
+(SELECT match_id FROM
+      Player JOIN Goal ON match_id
+  WHERE player.name = 'Christine Sinclair'
 
-  Group by match_id)
+  GROUP BY match_id)
 ;
