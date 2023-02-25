@@ -18,9 +18,9 @@ CREATE TABLE Stadium
 CREATE TABLE Match
 (match_id INTEGER NOT NULL,
  date DATE NOT NULL,
- time INTEGER NOT NULL,
+ time VARCHAR(10) NOT NULL,
  round VARCHAR(15) NOT NULL,
- stadium_name NOT NULL,
+ stadium_name VARCHAR(30) NOT NULL,
  PRIMARY KEY (match_id),
  FOREIGN KEY (stadium_name)
      REFERENCES Stadium);
@@ -71,8 +71,8 @@ CREATE TABLE Transaction
 
 CREATE TABLE Team
 (country VARCHAR(15) NOT NULL,
- name VARCHAR(30) NOT NULL,
- website_url VARCHAR(15) NOT NULL,
+ name VARCHAR(70) NOT NULL,
+ website_url VARCHAR(30) NOT NULL,
  group VARCHAR(1) NOT NULL,
  PRIMARY KEY (country));
 
@@ -136,7 +136,7 @@ CREATE TABLE Goal
  match_id INTEGER NOT NULL,
  country VARCHAR(15) NOT NULL,
  shirt_num INTEGER NOT NULL,
- minute TIME NOT NULL,
+ minute INTEGER NOT NULL,
  is_penalty INTEGER NOT NULL,
  PRIMARY KEY (match_id, occurrence),
  FOREIGN KEY (match_id)
@@ -147,7 +147,7 @@ CREATE TABLE Goal
 CREATE TABLE Refereeship
 (referee_id INTEGER NOT NULL,
  match_id INTEGER NOT NULL,
- role VARCHAR(15) NOT NULL,
+ role VARCHAR(30) NOT NULL,
  PRIMARY KEY (referee_id, match_id),
  FOREIGN KEY (referee_id)
      REFERENCES Referee,
@@ -162,25 +162,11 @@ CREATE TABLE Booking
  referee_id INTEGER NOT NULL,
  is_red INTEGER NOT NULL,
  yellow_occurrance INTEGER,
- PRIMARY KEY (country, occurrence),
+ PRIMARY KEY (match_id, occurrence),
  FOREIGN KEY (country, shirt_num)
      REFERENCES Player,
  FOREIGN KEY (referee_id)
      REFERENCES Referee,
  FOREIGN KEY (match_id)
      REFERENCES Played_Match);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

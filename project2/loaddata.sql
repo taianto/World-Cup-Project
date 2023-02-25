@@ -10,22 +10,22 @@ CONNECT TO cs421;
 
 
 INSERT INTO Stadium (stadium_name, capacity, location) VALUES
-                                                           ('Olympic Stadium', 61,004, 'Montreal, Quebec, Canada'),
-                                                           ('Commonwealth Stadium', 56302, '11000 Stadium Road Edmonton, Alberta, Canada'),
-                                                           ('BC Place', 54320, '777 Pacific Boulevard Vancouver, British Columbia'),
+                                                           ('Olympic Stadium', 61004, 'Montreal, Quebec, Canada'),
+                                                           ('Commonwealth Stadium', 56302, 'Alberta, Canada'),
+                                                           ('BC Place', 54320, 'Vancouver, British Columbia'),
                                                            ('Rogers Centre', 47568, 'Toronto, Ontario'),
                                                            ('McMahon Stadium', 37317, 'Calgary, Alberta, Canada')
 ;
 
 INSERT INTO Match (match_id, date, time, round, stadium_name) VALUES
-                                                                  (100, '05/06/23', '12:00:00', 'group', 'Olympic Stadium'),
-                                                                  (101, '05/06/23', '15:00:00', 'group', 'BC Place'),
-                                                                  (102, '05/07/23', '12:00:00', 'group', 'McMahon Stadium'),
-                                                                  (103, '05/07/23', '15:00:00', 'group', 'Commonswealth Stadium'),
-                                                                  (104, '05/13/23', '12:00:00', 'group', 'Rogers Centre'),
-                                                                  (105, '05/13/23', '15:00:00', 'group', 'BC Place'),
-                                                                  (106, '05/14/23', '12:00:00', 'group', 'Rogers Centre'),
-                                                                  (107, '05/14/23', '15:00:00', 'group', 'Commonswealth Stadium')
+                                                                  (100, '2023-05-06', '12:00:00', 'group', 'Olympic Stadium'),
+                                                                  (101, '2023-05-06', '15:00:00', 'group', 'BC Place'),
+                                                                  (102, '2023-05-07', '12:00:00', 'group', 'McMahon Stadium'),
+                                                                  (103, '2023-05-07', '15:00:00', 'group', 'Commonwealth Stadium'),
+                                                                  (104, '2023-05-13', '12:00:00', 'group', 'Rogers Centre'),
+                                                                  (105, '2023-05-13', '15:00:00', 'group', 'BC Place'),
+                                                                  (106, '2023-05-14', '12:00:00', 'group', 'Rogers Centre'),
+                                                                  (107, '2023-05-14', '15:00:00', 'group', 'Commonwealth Stadium')
 ;
 
 INSERT INTO Seat (seat_id, stadium_name) VALUES
@@ -44,11 +44,11 @@ INSERT INTO Seat (seat_id, stadium_name) VALUES
                                              ('160', 'McMahon Stadium'),
                                              ('170', 'McMahon Stadium'),
                                              ('180', 'McMahon Stadium'),
-                                             ('0001', 'Commonswealth Stadium'),
-                                             ('0002', 'Commonswealth Stadium'),
-                                             ('0003', 'Commonswealth Stadium'),
-                                             ('0004', 'Commonswealth Stadium'),
-                                             ('0005', 'Commonswealth Stadium'),
+                                             ('0001', 'Commonwealth Stadium'),
+                                             ('0002', 'Commonwealth Stadium'),
+                                             ('0003', 'Commonwealth Stadium'),
+                                             ('0004', 'Commonwealth Stadium'),
+                                             ('0005', 'Commonwealth Stadium'),
                                              ('1A', 'Rogers Centre'),
                                              ('1B', 'Rogers Centre'),
                                              ('1C', 'Rogers Centre'),
@@ -77,16 +77,16 @@ INSERT INTO Ticket (seat_id, stadium_name, match_id, price, status) VALUES
                                                                         ('160', 'McMahon Stadium', 102, 40.99, 'SOLD'),
                                                                         ('170', 'McMahon Stadium', 102, 30.99, 'SOLD'),
                                                                         ('180', 'McMahon Stadium', 102, 30.99, 'SOLD'),
-                                                                        ('0001', 'Commonswealth Stadium', 103, 50.99, 'AVAILABLE'),
-                                                                        ('0002', 'Commonswealth Stadium', 103, 50.99, 'AVAILABLE'),
-                                                                        ('0003', 'Commonswealth Stadium', 103, 40.99, 'SOLD'),
-                                                                        ('0004', 'Commonswealth Stadium', 103, 40.99, 'SOLD'),
-                                                                        ('0005', 'Commonswealth Stadium', 103, 40.99, 'SOLD'),
-                                                                        ('0001', 'Commonswealth Stadium', 107, 50.99, 'AVAILABLE'),
-                                                                        ('0002', 'Commonswealth Stadium', 107, 50.99, 'AVAILABLE'),
-                                                                        ('0003', 'Commonswealth Stadium', 107, 40.99, 'AVAILABLE'),
-                                                                        ('0004', 'Commonswealth Stadium', 107, 40.99, 'SOLD'),
-                                                                        ('0005', 'Commonswealth Stadium', 107, 40.99, 'SOLD'),
+                                                                        ('0001', 'Commonwealth Stadium', 103, 50.99, 'AVAILABLE'),
+                                                                        ('0002', 'Commonwealth Stadium', 103, 50.99, 'AVAILABLE'),
+                                                                        ('0003', 'Commonwealth Stadium', 103, 40.99, 'SOLD'),
+                                                                        ('0004', 'Commonwealth Stadium', 103, 40.99, 'SOLD'),
+                                                                        ('0005', 'Commonwealth Stadium', 103, 40.99, 'SOLD'),
+                                                                        ('0001', 'Commonwealth Stadium', 107, 50.99, 'AVAILABLE'),
+                                                                        ('0002', 'Commonwealth Stadium', 107, 50.99, 'AVAILABLE'),
+                                                                        ('0003', 'Commonwealth Stadium', 107, 40.99, 'AVAILABLE'),
+                                                                        ('0004', 'Commonwealth Stadium', 107, 40.99, 'SOLD'),
+                                                                        ('0005', 'Commonwealth Stadium', 107, 40.99, 'SOLD'),
                                                                         ('1A', 'Rogers Centre', 104, 50.99, 'SOLD'),
                                                                         ('1B', 'Rogers Centre', 104, 50.99, 'SOLD'),
                                                                         ('1C', 'Rogers Centre', 104, 50.99, 'SOLD'),
@@ -133,11 +133,11 @@ INSERT INTO Transaction (seat_id, stadium_name, match_id, transaction_id) VALUES
                                                                               ('160', 'McMahon Stadium', 102, 70092),
                                                                               ('170', 'McMahon Stadium', 102, 70092),
                                                                               ('180', 'McMahon Stadium', 102, 70092),
-                                                                              ('0003', 'Commonswealth Stadium', 103, 70093),
-                                                                              ('0004', 'Commonswealth Stadium', 103, 70093),
-                                                                              ('0005', 'Commonswealth Stadium', 103, 70093),
-                                                                              ('0004', 'Commonswealth Stadium', 107, 70094),
-                                                                              ('0005', 'Commonswealth Stadium', 107, 70094),
+                                                                              ('0003', 'Commonwealth Stadium', 103, 70093),
+                                                                              ('0004', 'Commonwealth Stadium', 103, 70093),
+                                                                              ('0005', 'Commonwealth Stadium', 103, 70093),
+                                                                              ('0004', 'Commonwealth Stadium', 107, 70094),
+                                                                              ('0005', 'Commonwealth Stadium', 107, 70094),
                                                                               ('1A', 'Rogers Centre', 104, 70095),
                                                                               ('1B', 'Rogers Centre', 104, 70095),
                                                                               ('1C', 'Rogers Centre', 104, 70095),
@@ -145,7 +145,7 @@ INSERT INTO Transaction (seat_id, stadium_name, match_id, transaction_id) VALUES
 ;
 
 INSERT INTO Team (country, name, website_url, group) VALUES
-                                                         ('Germany', 'Deutsche Fußballnationalmannschaft der Frauen', 'https://www.dfb.de/en/en-start/', 'A'),
+                                                         ('Germany', 'Deutsche Fußballnationalmannschaft der Frauen', 'https://www.dfb.de/', 'A'),
                                                          ('France', 'Équipe de France féminine de football', 'https://uk.fff.fr/', 'A'),
                                                          ('Spain', 'Selección Española de Fútbol Femenina', 'https://rfef.es/es', 'A'),
                                                          ('Portugal', 'A Selecção das Quinas', 'https://www.fpf.pt/pt/', 'A'),
@@ -174,11 +174,11 @@ INSERT INTO Match_Participants (match_id, country) VALUES
 ;
 
 INSERT INTO Played_Match (match_id, duration) VALUES
-                                                  (100, '00:96:47'),
-                                                  (101, '00:93:23'),
-                                                  (102, '00:92:03'),
-                                                  (103, '00:97:34'),
-                                                  (104, '00:91:27')
+                                                  (100, '01:36:47'),
+                                                  (101, '01:33:23'),
+                                                  (102, '01:32:03'),
+                                                  (103, '01:37:34'),
+                                                  (104, '01:31:27')
 ;
 
 
@@ -236,40 +236,40 @@ INSERT INTO Referee (referee_id, name, experience, nationality) VALUES
 ;
 
 INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES
-                                                                                            ('Germany', 1, 100, 'goalkeeper', '00:00:00', '00:96:47'),
-                                                                                            ('Germany', 6, 100, 'center back', '00:00:00', '00:73:21'),
-                                                                                            ('Germany', 11, 100, 'center forward', '00:00:00', '00:96:47'),
-                                                                                            ('France', 1, 100, 'goalkeeper', '00:00:00', '00:96:47'),
-                                                                                            ('France', 10, 100, 'center forward', '00:00:00', '00:96:47'),
-                                                                                            ('France', 3, 100, 'left mid', '00:00:00', '00:96:47'),
-                                                                                            ('Germany', 1, 101, 'goalkeeper', '00:00:00', '00:93:23'),
-                                                                                            ('Germany', 6, 101, 'center back', '00:57:32', '00:93:23'),
+                                                                                            ('Germany', 1, 100, 'goalkeeper', '00:00:00', '01:36:47'),
+                                                                                            ('Germany', 6, 100, 'center back', '00:00:00', '01:13:21'),
+                                                                                            ('Germany', 11, 100, 'center forward', '00:00:00', '01:36:47'),
+                                                                                            ('France', 1, 100, 'goalkeeper', '00:00:00', '01:36:47'),
+                                                                                            ('France', 10, 100, 'center forward', '00:00:00', '01:36:47'),
+                                                                                            ('France', 3, 100, 'left mid', '00:00:00', '01:36:47'),
+                                                                                            ('Germany', 1, 101, 'goalkeeper', '00:00:00', '01:33:23'),
+                                                                                            ('Germany', 6, 101, 'center back', '00:57:32', '01:33:23'),
                                                                                             ('Germany', 7, 101, 'center mid', '00:00:00', '00:57:31'),
-                                                                                            ('Germany', 11, 101, 'center forward', '00:00:00', '00:93:23'),
-                                                                                            ('Spain', 1, 101, 'goalkeeper', '00:00:00', '00:93:23'),
-                                                                                            ('Spain', 9, 101, 'right back', '00:00:00', '00:93:23'),
-                                                                                            ('Spain', 5, 101, 'left back', '00:32:16', '00:93:23'),
+                                                                                            ('Germany', 11, 101, 'center forward', '00:00:00', '01:33:23'),
+                                                                                            ('Spain', 1, 101, 'goalkeeper', '00:00:00', '01:33:23'),
+                                                                                            ('Spain', 9, 101, 'right back', '00:00:00', '01:33:23'),
+                                                                                            ('Spain', 5, 101, 'left back', '00:32:16', '01:33:23'),
                                                                                             ('Spain', 14, 101, 'center mid', '00:00:00', '00:32:15'),
-                                                                                            ('Germany', 1, 102, 'goalkeeper', '00:00:00', '00:92:03'),
-                                                                                            ('Germany', 6, 102, 'center back', '00:00:00', '00:92:03'),
-                                                                                            ('Germany', 11, 102, 'center forward', '00:00:00', '00:92:03'),
-                                                                                            ('Portugal', 1, 102, 'goalkeeper', '00:00:00', '00:92:03'),
-                                                                                            ('Portugal', 6, 102, 'center back', '00:00:00', '00:92:03'),
-                                                                                            ('Portugal', 15, 102, 'left winger', '00:46:13', '00:92:03'),
+                                                                                            ('Germany', 1, 102, 'goalkeeper', '00:00:00', '01:32:03'),
+                                                                                            ('Germany', 6, 102, 'center back', '00:00:00', '01:32:03'),
+                                                                                            ('Germany', 11, 102, 'center forward', '00:00:00', '01:32:03'),
+                                                                                            ('Portugal', 1, 102, 'goalkeeper', '00:00:00', '01:32:03'),
+                                                                                            ('Portugal', 6, 102, 'center back', '00:00:00', '01:32:03'),
+                                                                                            ('Portugal', 15, 102, 'left winger', '00:46:13', '01:32:03'),
                                                                                             ('Portugal', 11, 102, 'right winger', '00:00:00', '00:46:12'),
-                                                                                            ('Germany', 1, 103, 'goalkeeper', '00:00:00', '00:97:34'),
-                                                                                            ('Germany', 7, 103, 'center back', '00:00:00', '00:97:34'),
-                                                                                            ('Germany', 11, 103, 'center forward', '00:00:00', '00:97:34'),
-                                                                                            ('Canada', 1, 103, 'goalkeeper', '00:00:00', '00:97:34'),
-                                                                                            ('Canada', 6, 103, 'center back', '00:63:12', '00:97:34'),
-                                                                                            ('Canada', 3, 103, 'center mid', '00:00:00', '00:63:11'),
-                                                                                            ('Canada', 16, 103, 'center forward', '00:00:00', '00:97:34'),
-                                                                                            ('France', 1, 104, 'goalkeeper', '00:00:00', '00:91:27'),
-                                                                                            ('France', 3, 104, 'left back', '00:00:00', '00:91:27'),
-                                                                                            ('France', 10, 104, 'right back', '00:00:00', '00:91:27'),
-                                                                                            ('Spain', 1, 104, 'goalkeeper', '00:00:00', '00:91:27'),
-                                                                                            ('Spain', 9, 104, 'left winger', '00:00:00', '00:91:27'),
-                                                                                            ('Spain', 14, 104, 'right winger', '00:00:00', '00:67:24')
+                                                                                            ('Germany', 1, 103, 'goalkeeper', '00:00:00', '01:37:34'),
+                                                                                            ('Germany', 7, 103, 'center back', '00:00:00', '01:37:34'),
+                                                                                            ('Germany', 11, 103, 'center forward', '00:00:00', '01:37:34'),
+                                                                                            ('Canada', 1, 103, 'goalkeeper', '00:00:00', '01:37:34'),
+                                                                                            ('Canada', 6, 103, 'center back', '01:03:12', '01:37:34'),
+                                                                                            ('Canada', 3, 103, 'center mid', '00:00:00', '01:03:11'),
+                                                                                            ('Canada', 16, 103, 'center forward', '00:00:00', '01:37:34'),
+                                                                                            ('France', 1, 104, 'goalkeeper', '00:00:00', '01:31:27'),
+                                                                                            ('France', 3, 104, 'left back', '00:00:00', '01:31:27'),
+                                                                                            ('France', 10, 104, 'right back', '00:00:00', '01:31:27'),
+                                                                                            ('Spain', 1, 104, 'goalkeeper', '00:00:00', '01:31:27'),
+                                                                                            ('Spain', 9, 104, 'left winger', '00:00:00', '01:31:27'),
+                                                                                            ('Spain', 14, 104, 'right winger', '00:00:00', '01:07:24')
 ;
 
 
@@ -311,14 +311,14 @@ INSERT INTO Refereeship (referee_id, match_id, role) VALUES
                                                          (3003, 104, 'assistant referee')
 ;
 
-INSERT INTO Booking (match_id, occurrence, country, shirt_num, referee_id, is_red, yellow_occurance) VALUES
+INSERT INTO Booking (match_id, occurrence, country, shirt_num, referee_id, is_red, yellow_occurrance) VALUES
                                                                                                          (100, 1, 'Germany', 6, 3002, 0, 1),
                                                                                                          (100, 2, 'Germany', 6, 3002, 0, 2),
                                                                                                          (101, 1, 'Germany', 1, 3005, 0, 1),
                                                                                                          (101, 2, 'Spain', 5, 3005, 0, 2),
                                                                                                          (102, 1, 'Canada', 6, 3002, 0, 1),
                                                                                                          (103, 1, 'Canada', 6, 3004, 0, 1),
-                                                                                                         (104, 1, 'Spain', 14, 3005, 1, )
+                                                                                                         (104, 1, 'Spain', 14, 3005, 1, NULL)
 ;
 
 
