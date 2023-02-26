@@ -73,7 +73,7 @@ CREATE TABLE Team
 (country VARCHAR(15) NOT NULL,
  name VARCHAR(70) NOT NULL,
  website_url VARCHAR(30) NOT NULL,
- group VARCHAR(1) NOT NULL,
+ group VARCHAR(16) NOT NULL,
  PRIMARY KEY (country));
 
 CREATE TABLE Match_Participants
