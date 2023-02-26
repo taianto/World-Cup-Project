@@ -145,11 +145,12 @@ INSERT INTO Transaction (seat_id, stadium_name, match_id, transaction_id) VALUES
 ;
 
 INSERT INTO Team (country, name, website_url, group) VALUES
-('Germany', 'Deutsche Fußballnationalmannschaft der Frauen', 'https://www.dfb.de/', 'A'),
-('France', 'Équipe de France féminine de football', 'https://uk.fff.fr/', 'A'),
-('Spain', 'Selección Española de Fútbol Femenina', 'https://rfef.es/es', 'A'),
-('Portugal', 'A Selecção das Quinas', 'https://www.fpf.pt/pt/', 'A'),
-('Canada', 'Équipe du Canada féminine de soccer', 'https://canadasoccer.com/', 'A')
+('Belgium', 'Royal Belgian Football Association','https://www.rbfa.be/en','Group B'),
+('Germany', 'Deutsche Fußballnationalmannschaft der Frauen', 'https://www.dfb.de/', 'Group A'),
+('France', 'Équipe de France féminine de football', 'https://uk.fff.fr/', 'Group A'),
+('Spain', 'Selección Española de Fútbol Femenina', 'https://rfef.es/es', 'Group A'),
+('Portugal', 'A Selecção das Quinas', 'https://www.fpf.pt/pt/', 'Group A'),
+('Canada', 'Équipe du Canada féminine de soccer', 'https://canadasoccer.com/', 'Group A')
 ;
 
 
@@ -183,6 +184,9 @@ INSERT INTO Played_Match (match_id, duration) VALUES
 
 
 INSERT INTO Player (country, shirt_num, name, dob, general_position) VALUES
+('Belgium', 1, 'Thibault Courtois', '06/11/1992', 'goalkeeper'),
+('Belgium', 22, 'Simon Mignolet', '03/06/1988', 'goalkeeper'),
+('Belgium', 30, 'Koen Casteels', '06/25/1992', 'goalkeeper'),
 ('Germany', 1, 'Aliana Conner', '06/19/1994', 'goalkeeper'),
 ('Germany', 6, 'Abbigail Pratt', '03/18/1993', 'defender'),
 ('Germany', 7, 'Willow Soto', '05/01/2002', 'midfielder'),
