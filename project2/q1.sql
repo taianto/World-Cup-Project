@@ -1,10 +1,9 @@
-SELECT MATCH.STADIUM_NAME, LOCATION, DATE FROM
-    Stadium JOIN Match ON STADIUM.STADIUM_NAME = MATCH.STADIUM_NAME
-WHERE MATCH_ID IN
-
-(SELECT match_id FROM
-      Player JOIN Goal ON match_id
-  WHERE player.name = 'Christine Sinclair' and PLAYER.COUNTRY = GOAL.COUNTRY
-
+SELECT Match.stadium_name, location, date
+FROM Stadium
+    JOIN Match
+        ON Stadium.stadium_name = Match.stadium_name AND match_id IN
+(SELECT match_id
+ FROM Player JOIN Goal
+     ON match_id AND Player.name = 'Christine Sinclair' AND Player.country = Goal.country
   GROUP BY match_id)
 ;

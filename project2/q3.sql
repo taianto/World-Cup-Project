@@ -1,12 +1,13 @@
-
-SELECT TABLE1.COUNTRY,countrymax AS PLAYED ,numgoals FROM
-(SELECT COUNTRY, COUNT(COUNTRY) numgoals FROM
-    GOAL
- WHERE IS_PENALTY!=1
- GROUP BY COUNTRY) TABLE1
-INNER JOIN
-(SELECT COUNTRY, count(COUNTRY) countrymax FROM
-    MATCH_PARTICIPANTS
- WHERE MATCH_ID IN (select MATCH_ID from PLAYED_MATCH)
- GROUP BY COUNTRY) TABLE2 ON TABLE1.COUNTRY = TABLE2.COUNTRY
+SELECT Table2.country, countrymax AS played, COALESCE(numgoals,0) FROM
+    (SELECT country, COUNT(*) AS numgoals
+     FROM Goal
+     WHERE is_penalty != 1
+     GROUP BY country) Table1
+        FULL OUTER JOIN
+    (SELECT country, COUNT(*) AS countrymax
+     FROM Match_Participants
+     WHERE match_id IN
+           (SELECT match_id from Played_Match)
+     GROUP BY country) Table2
+    ON Table1.country = Table2.country
 ;
