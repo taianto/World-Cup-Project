@@ -124,7 +124,7 @@ CREATE TABLE PlaysIn
  match_id INTEGER NOT NULL,
  specific_pos VARCHAR(15) NOT NULL,
  entry_time TIME NOT NULL,
- exit_time TIME NOT NULL,
+ exit_time TIME,
  PRIMARY KEY (country, shirt_num, match_id),
  FOREIGN KEY (country, shirt_num)
      REFERENCES Player,
