@@ -1,4 +1,5 @@
 import java.sql.* ;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
@@ -201,6 +202,12 @@ class Soccer
                     LocalDate nextDate = nowDate.plusDays(3);
                     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
+
+                    // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                    nowDate = LocalDate.parse("2023-05-10");
+                    nextDate = nowDate.plusDays(3);
+                    myTime = LocalTime.parse("11:23:00");
+
 
                     try {
                         String querySQL = "SELECT *  FROM (\n" +
@@ -411,6 +418,11 @@ class Soccer
                     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
 
+                    // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                    nowDate = LocalDate.parse("2023-05-10");
+                    nextDate = nowDate.plusDays(3);
+                    myTime = LocalTime.parse("11:23:00");
+
                     try {
                         String querySQL = "SELECT *  FROM (\n" +
                                 "SELECT * FROM\n" +
@@ -498,8 +510,15 @@ class Soccer
                         java.sql.ResultSet rs = statement.executeQuery(querySQL);
 
                         System.out.println("The following players from "+matchCountry+" are already entered for match "+matchIdentifier +":");
+                        System.out.println("Chose those with exit_time = NULL and enter a valid exit_time.");
+                        System.out.println("Type [MAX] to quick select end of match. Or another time.");
+                        System.out.println("If you do not select MAX, you will be prompted with a substitute player to swap with (if exits, else will fail).");
+                        System.out.println("You can enter [P] to cancel an individual operation and go back to previous menu.");
 
+                        ArrayList selectable = new ArrayList();
+                        int playerNumber =0;
                         while (rs.next()) {
+                            playerNumber++;
                             String name = rs.getString("Name");
                             int shirt = rs.getInt("Shirt_num");
                             String pos = rs.getString("Specific_pos");
@@ -508,10 +527,68 @@ class Soccer
                             int yellow = rs.getInt("YELLOW");
                             int red = rs.getInt("RED");
 
+                            if (leave == "null"){
+                                ArrayList myTuple = new ArrayList();
+                                myTuple.add(name);
+                                myTuple.add(leave);
+                                selectable.add(myTuple);
 
-                            System.out.printf("%-16s %d %-16s %-16s %-16s %d %d\n", name, shirt, pos, enter, leave,yellow, red);
+                                System.out.printf("%d %-16s %d %-16s %-16s %-16s %d %d\n",playerNumber, name, shirt, pos, enter, leave,yellow, red);
+                            }else{
+                                System.out.printf("%s %-16s %d %-16s %-16s %-16s %d %d\n","-", name, shirt, pos, enter, leave,yellow, red);
+                            }
 
                         } // while rs.next()
+
+                        System.out.println("Enter the [number] (not shirt number) of the player you want to add exit_time to or [P]\n" +
+                                "to go to the previous menu.");
+                        String option = input.next();
+                        if (option.equalsIgnoreCase("p")) {
+                            break;
+                        }
+
+                        int selection = Integer.parseInt(option);
+                        selection--;
+                        ArrayList addTuple = (ArrayList) selectable.get(selection);
+
+                        // get query to know max time for that match
+                        querySQL = "SELECT DURATION FROM PLAYED_MATCH WHERE MATCH_ID = " + matchIdentifier ;
+                        rs = statement.executeQuery(querySQL);
+                        String maxTime = rs.getString("Duration");
+
+                        LocalTime maxDuration = LocalTime.parse(maxTime);
+                        LocalTime chosenDuration = LocalTime.parse("59:59:59");
+
+                        while (maxDuration.isAfter(chosenDuration)){
+                            System.out.println("Enter exit_time ");
+                            option = input.next();
+
+                            chosenDuration = LocalTime.parse(option);
+                            if (option.equalsIgnoreCase("p")) {
+                                break;
+                            }
+                            if (option.equalsIgnoreCase("max")) {
+                                option = maxTime;
+                            }
+
+                            if (maxDuration.equals(chosenDuration) || maxDuration.isBefore(chosenDuration) ){
+                                break;
+                            }
+                            System.out.println("Bad selection");
+                            System.out.println("Enter exit_time");
+                        }
+
+                        if (option.equalsIgnoreCase("p")) {
+                            break;
+                        }
+
+                        // if time = max then insert into table
+                        // and loop back
+                        // else need to query leftover players if exist
+                        if (maxDuration.equals(chosenDuration)){
+                            // insert into
+                        }
+
 
 
 
@@ -520,7 +597,7 @@ class Soccer
                                 "                                                WHERE COUNTRY = '"+ matchCountry+"' AND MATCH_ID = "+ matchIdentifier+ ")";
                         rs = statement.executeQuery(querySQL);
 
-                        System.out.println("Possible players not yet selected:");
+                        System.out.println("Possible players to sub in:");
 
                         ArrayList addable = new ArrayList();
                         int counter = 0;
@@ -542,30 +619,34 @@ class Soccer
 
                         } // while rs.next()
 
-                        System.out.println("Enter the [number] (not shirt number) of the player you want to insert or [P]\n" +
-                                "to go to the previous menu.");
-                        String option = input.next();
-                        if (option.equalsIgnoreCase("p")) {
-                            break;
-                        }
-                        int selection = Integer.parseInt(option);
-                        selection--;
-                        ArrayList addTuple = (ArrayList) addable.get(selection);
-
-                        System.out.println("Enter the [position] of the player you want to insert or [P]\n" +
-                                "to go to the previous menu.");
-                        option = input.next();
-                        if (option.equalsIgnoreCase("p")) {
-                            break;
-                        }
 
                         String insertSQL = "INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES ('" +
                                 addTuple.get(0)+"',"+addTuple.get(1).toString()+","+addTuple.get(2).toString()+",'"+option+"','"+addTuple.get(4)+"', NULL)" ;
 
                         statement.executeUpdate ( insertSQL ) ;
 
+                        String updateSQL = "UPDATE " + tableName + " SET NAME = \'Mimi\' WHERE id = 3";
+                        System.out.println(updateSQL);
+                        statement.executeUpdate(updateSQL);
+
+
                         String removeSQL = "DELETE FROM PLAYSIN WHERE COUNTRY = '" + addTuple.get(0) +"' AND SHIRT_NUM = " + addTuple.get(1).toString();
                         balance.add(removeSQL);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     }catch (SQLException e) {
                         sqlCode = e.getErrorCode(); // Get SQLCODE
