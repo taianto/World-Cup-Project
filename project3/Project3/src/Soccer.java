@@ -529,8 +529,8 @@ class Soccer
 
                             if (leave == "null"){
                                 ArrayList myTuple = new ArrayList();
-                                myTuple.add(name);
-                                myTuple.add(leave);
+                                myTuple.add(shirt);
+                                myTuple.add(pos);
                                 selectable.add(myTuple);
 
                                 System.out.printf("%d %-16s %d %-16s %-16s %-16s %d %d\n",playerNumber, name, shirt, pos, enter, leave,yellow, red);
@@ -586,68 +586,61 @@ class Soccer
                         // and loop back
                         // else need to query leftover players if exist
                         if (maxDuration.equals(chosenDuration)){
-                            // insert into
-                        }
+                            // insert into table with max out
+
+                            String updateSQL = "UPDATE PLAYSIN SET EXIT_TIME = '"+chosenDuration.toString()+"' WHERE SHIRT_NUM = "+addTuple.get(0)+" AND COUNTRY = " + matchCountry;
+                            statement.executeUpdate(updateSQL);
+                            // New exit_time should be applied
 
 
+                        } else {
+                            // need to chose replacement before completing the query even if it is the same as above
+
+                            querySQL = "SELECT NAME, SHIRT_NUM, GENERAL_POSITION FROM PLAYER\n" +
+                                    "WHERE COUNTRY = '" +matchCountry + "' and SHIRT_NUM NOT IN (SELECT PLAYSIN.SHIRT_NUM FROM PLAYSIN\n" +
+                                    "                                                WHERE COUNTRY = '"+ matchCountry+"' AND MATCH_ID = "+ matchIdentifier+ ")";
+                            rs = statement.executeQuery(querySQL);
+
+                            System.out.println("Possible players to sub in:");
+
+                            ArrayList addable = new ArrayList();
+                            int counter = 0;
+
+                            while (rs.next()) {
+
+                                counter++;
+                                String name = rs.getString("Name");
+                                int shirt = rs.getInt("Shirt_num");
+                                String pos = rs.getString("GENERAL_POSITION");
+                                ArrayList myTuple = new ArrayList();
+                                myTuple.add(matchCountry);
+                                myTuple.add(shirt);
+                                myTuple.add(matchIdentifier);
+                                myTuple.add(pos);
+                                myTuple.add("00:00:00");
+                                addable.add(myTuple);
+                                System.out.printf("%d %-16s %d %-16s \n", counter, name, shirt, pos);
+
+                            } // while rs.next()
+
+                            System.out.println("Enter the [number] (not shirt number) of the player you want to insert or [P]\n" +
+                                    "to go to the previous menu.");
+                            option = input.next();
+                            if (option.equalsIgnoreCase("p")) {
+                                break;
+                            }
+                            selection = Integer.parseInt(option);
+                            selection--;
+                            ArrayList addTuple1 = (ArrayList) addable.get(selection);
 
 
-                        querySQL = "SELECT NAME, SHIRT_NUM, GENERAL_POSITION FROM PLAYER\n" +
-                                "WHERE COUNTRY = '" +matchCountry + "' and SHIRT_NUM NOT IN (SELECT PLAYSIN.SHIRT_NUM FROM PLAYSIN\n" +
-                                "                                                WHERE COUNTRY = '"+ matchCountry+"' AND MATCH_ID = "+ matchIdentifier+ ")";
-                        rs = statement.executeQuery(querySQL);
+                            String insertSQL = "INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES ('" +
+                                    addTuple1.get(0)+"',"+addTuple1.get(1).toString()+","+addTuple1.get(2).toString()+",'"+addTuple.get(1)+"','"+chosenDuration.toString()+"', NULL)" ;
 
-                        System.out.println("Possible players to sub in:");
-
-                        ArrayList addable = new ArrayList();
-                        int counter = 0;
-
-                        while (rs.next()) {
-
-                            counter++;
-                            String name = rs.getString("Name");
-                            int shirt = rs.getInt("Shirt_num");
-                            String pos = rs.getString("GENERAL_POSITION");
-                            ArrayList myTuple = new ArrayList();
-                            myTuple.add(matchCountry);
-                            myTuple.add(shirt);
-                            myTuple.add(matchIdentifier);
-                            myTuple.add(pos);
-                            myTuple.add("00:00:00");
-                            addable.add(myTuple);
-                            System.out.printf("%d %-16s %d %-16s \n", counter, name, shirt, pos);
-
-                        } // while rs.next()
+                            statement.executeUpdate ( insertSQL ) ;
 
 
-                        String insertSQL = "INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES ('" +
-                                addTuple.get(0)+"',"+addTuple.get(1).toString()+","+addTuple.get(2).toString()+",'"+option+"','"+addTuple.get(4)+"', NULL)" ;
-
-                        statement.executeUpdate ( insertSQL ) ;
-
-                        String updateSQL = "UPDATE " + tableName + " SET NAME = \'Mimi\' WHERE id = 3";
-                        System.out.println(updateSQL);
-                        statement.executeUpdate(updateSQL);
-
-
-                        String removeSQL = "DELETE FROM PLAYSIN WHERE COUNTRY = '" + addTuple.get(0) +"' AND SHIRT_NUM = " + addTuple.get(1).toString();
-                        balance.add(removeSQL);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        } // else
                     }catch (SQLException e) {
                         sqlCode = e.getErrorCode(); // Get SQLCODE
                         sqlState = e.getSQLState(); // Get SQLSTATE
@@ -658,23 +651,6 @@ class Soccer
                         System.out.println(e);
                     } // try catch
                 } // exit
-
-
-                for (int i = 0; i < balance.size(); i++) { // REMOVE THIS, THIS IS JUST HERE FOR TESETING HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    try {
-                        statement.executeUpdate(balance.get(i));
-                    }catch (SQLException e) {
-                        sqlCode = e.getErrorCode(); // Get SQLCODE
-                        sqlState = e.getSQLState(); // Get SQLSTATE
-
-                        // Your code to handle errors comes here;
-                        // something more meaningful than a print would be good
-                        System.out.println("Code: " + sqlCode + "  sqlState: " + sqlState);
-                        System.out.println(e);
-                    } // try catch
-                } // for loop
-
-
             } // menu 2
         } // end Local Class
 
