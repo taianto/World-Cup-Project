@@ -129,7 +129,7 @@ CREATE TABLE PlaysIn
  FOREIGN KEY (country, shirt_num)
      REFERENCES Player,
  FOREIGN KEY (match_id)
-     REFERENCES Played_Match);
+     REFERENCES Match);
 
 CREATE TABLE Goal
 (occurrence INTEGER NOT NULL,
