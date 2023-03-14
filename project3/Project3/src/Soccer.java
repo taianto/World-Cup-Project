@@ -138,18 +138,20 @@ class Soccer
                         "               FROM\n" +
                         "                   (SELECT table1.MATCH_ID AS MID, table1.COUNTRY1 AS COUNTRY1, MP.COUNTRY AS COUNTRY2, DATE, ROUND\n" +
                         "                    FROM\n" +
-                        "                        (SELECT MP2.MATCH_ID, MIN(COUNTRY) AS COUNTRY1, M.DATE, M.ROUND\n" +
-                        "                         FROM MATCH_PARTICIPANTS AS MP2, MATCH AS M\n" +
-                        "                         WHERE M.MATCH_ID = MP2.MATCH_ID\n" +
-                        "                         GROUP BY MP2.MATCH_ID, M.DATE, M.ROUND) table1 LEFT OUTER JOIN MATCH_PARTICIPANTS AS MP\n" +
+                        "                        (SELECT M.MATCH_ID, MIN(COUNTRY) AS COUNTRY1, M.DATE, M.ROUND\n" +
+                        "                         FROM MATCH AS M LEFT OUTER JOIN MATCH_PARTICIPANTS AS MP2\n" +
+                        "                                                         ON M.MATCH_ID = MP2.MATCH_ID\n" +
+                        "                         GROUP BY M.MATCH_ID, M.DATE, M.ROUND) table1 LEFT OUTER JOIN MATCH_PARTICIPANTS AS MP\n" +
                         "                                                                                        ON table1.MATCH_ID = MP.MATCH_ID AND COUNTRY1 != MP.COUNTRY) table2\n" +
-                        "                       LEFT OUTER JOIN GOAL AS G1 ON table2.MID = G1.MATCH_ID AND table2.COUNTRY1 = G1.COUNTRY\n" +
+                        "                       LEFT OUTER JOIN GOAL AS G1\n" +
+                        "                           ON table2.MID = G1.MATCH_ID AND table2.COUNTRY1 = G1.COUNTRY\n" +
                         "               GROUP BY table2.MID, table2.COUNTRY1, table2.COUNTRY2, table2.ROUND, table2.DATE, G1.COUNTRY) table3\n" +
-                        "                  LEFT OUTER JOIN GOAL AS G2 ON MID = G2.MATCH_ID AND COUNTRY2 = G2.COUNTRY\n" +
+                        "                  LEFT OUTER JOIN GOAL AS G2\n" +
+                        "                      ON MID = G2.MATCH_ID AND COUNTRY2 = G2.COUNTRY\n" +
                         "          GROUP BY MID, COUNTRY1, COUNTRY2, ROUND, DATE, T1GOALS, G2.COUNTRY) table4\n" +
                         "             LEFT OUTER JOIN TICKET\n" +
                         "                             ON MID = TICKET.MATCH_ID AND TICKET.STATUS = 'SOLD'\n" +
-                        "     GROUP BY MID, COUNTRY1, COUNTRY2, ROUND, DATE, T1GOALS, T2GOALS, TICKET.MATCH_ID)\n" +
+                        "     GROUP BY MID, COUNTRY1, COUNTRY2, ROUND, DATE, T1GOALS, T2GOALS, TICKET.MATCH_ID)" +
                         "WHERE COUNTRY1 = '" + country + "' OR COUNTRY2 = '" + country + "'";
                 java.sql.ResultSet rs = statement.executeQuery(querySQL);
                 System.out.print("\n-----------------------------------------------------------------------------------" +
