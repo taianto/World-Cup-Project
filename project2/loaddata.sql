@@ -271,9 +271,9 @@ INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exi
 ('France', 1, 104, 'goalkeeper', '00:00:00', '01:31:27'),
 ('France', 3, 104, 'left back', '00:00:00', '01:31:27'),
 ('France', 10, 104, 'right back', '00:00:00', '01:31:27'),
-('Spain', 1, 104, 'goalkeeper', '00:00:00', '01:31:27'),
-('Spain', 9, 104, 'left winger', '00:00:00', '01:31:27'),
-('Spain', 14, 104, 'right winger', '00:00:00', '01:07:24')
+('Spain', 1, 104, 'goalkeeper', '00:00:00', NULL),
+('Spain', 9, 104, 'left winger', '00:00:00', NULL),
+('Spain', 14, 104, 'right winger', '00:00:00', NULL)
 ;
 
 
