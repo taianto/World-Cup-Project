@@ -196,7 +196,6 @@ class Soccer
         class Local {
             public void menu1(int sqlCode, String sqlState, Statement statement){
                 Scanner input = new Scanner(System.in);
-                ArrayList<String> balance = new ArrayList<>();
                 while(true){
                     LocalDate nowDate = LocalDate.now();
                     LocalDate nextDate = nowDate.plusDays(3);
@@ -204,9 +203,9 @@ class Soccer
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
 
                     // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    nowDate = LocalDate.parse("2023-05-10");
+                    nowDate = LocalDate.parse("2023-05-12");
                     nextDate = nowDate.plusDays(3);
-                    myTime = LocalTime.parse("11:23:00");
+                    myTime = LocalTime.parse("09:00:00");
 
 
                     try {
@@ -235,9 +234,9 @@ class Soccer
                                 "WHERE (DATE <= '"+nextDate.toString() +"' AND TIME <= '"+myTime.toString()+"') OR DATE < '"+nextDate.toString() +"' AND COUNTRY1 IS NOT NULL AND COUNTRY2 IS NOT NULL)";
 
                         java.sql.ResultSet rs = statement.executeQuery(querySQL);
-                        System.out.println("Current Date: " +nowDate.toString());
+                        System.out.println("\nCurrent Date: " +nowDate.toString());
                         System.out.println("Current Time: " +myTime.toString());
-                        System.out.println("Matches within next 72 hours:");
+                        System.out.println("\nMatches within next 72 hours:");
 
                         while (rs.next()) {
                             int mid = rs.getInt("MID");
@@ -250,7 +249,7 @@ class Soccer
 
                         } // while rs.next()
 
-                        System.out.print("Enter [Match Identifier] you wish to insert into or [P] to go to the previous menu: ");
+                        System.out.print("\nEnter [Match Identifier] you wish to insert into or [P] to go to the previous menu: ");
                         String option = input.next();
                         System.out.println(option);
                         if (option.equalsIgnoreCase("p")) {
@@ -283,7 +282,6 @@ class Soccer
             public void menu2(int sqlCode, String sqlState, Statement statement, String matchIdentifier, String matchCountry){
                 boolean exit = false;
                 Scanner input = new Scanner(System.in);
-                ArrayList<String> balance = new ArrayList<>();
                 while(true){
 
                     try {
@@ -309,7 +307,7 @@ class Soccer
                             int red = rs.getInt("RED");
 
 
-                            System.out.printf("%-16s %d %-16s %-16s %-16s %d %d\n", name, shirt, pos, enter, leave,yellow, red);
+                            System.out.printf("%-16s %d %-16s form: %-16s to: %-16s yellow: %d red: %d\n", name, shirt, pos, enter, leave,yellow, red);
 
                         } // while rs.next()
 
@@ -348,8 +346,10 @@ class Soccer
                         if (option.equalsIgnoreCase("p")) {
                             break;
                         }
-                        if (playerCount >= 3){
-                            System.out.println("Team Full, returning to previous menu.");
+                        int maxp = 3;
+                        if (playerCount >= maxp){
+                            System.out.println("FAILED TO INSERT, TEAM IS FULL (MAX PLAYERS = " + maxp +" ).");
+                            menu2(sqlCode, sqlState, statement, matchIdentifier,matchCountry);
                             break;
                         }
                         int selection = Integer.parseInt(option);
@@ -364,12 +364,11 @@ class Soccer
                         }
 
                         String insertSQL = "INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES ('" +
-                                addTuple.get(0)+"',"+addTuple.get(1).toString()+","+addTuple.get(2).toString()+",'"+option+"','"+addTuple.get(4)+"', NULL)" ;
+                                matchCountry+"',"+addTuple.get(1)+","+matchIdentifier+",'"+option.toString()+"','00:00:00', NULL)" ;
 
                         statement.executeUpdate ( insertSQL ) ;
 
                         String removeSQL = "DELETE FROM PLAYSIN WHERE COUNTRY = '" + addTuple.get(0) +"' AND SHIRT_NUM = " + addTuple.get(1).toString();
-                        balance.add(removeSQL);
 
                     }catch (SQLException e) {
                         sqlCode = e.getErrorCode(); // Get SQLCODE
@@ -381,22 +380,6 @@ class Soccer
                         System.out.println(e);
                     } // try catch
                 } // exit
-
-
-                for (int i = 0; i < balance.size(); i++) { // REMOVE THIS, THIS IS JUST HERE FOR TESETING HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    try {
-                        statement.executeUpdate(balance.get(i));
-                    }catch (SQLException e) {
-                        sqlCode = e.getErrorCode(); // Get SQLCODE
-                        sqlState = e.getSQLState(); // Get SQLSTATE
-
-                        // Your code to handle errors comes here;
-                        // something more meaningful than a print would be good
-                        System.out.println("Code: " + sqlCode + "  sqlState: " + sqlState);
-                        System.out.println(e);
-                    } // try catch
-                } // for loop
-
 
             } // menu 2
         } // end Local Class
@@ -411,7 +394,6 @@ class Soccer
         class Local {
             public void menu1(int sqlCode, String sqlState, Statement statement){
                 Scanner input = new Scanner(System.in);
-                ArrayList<String> balance = new ArrayList<>();
                 while(true){
                     LocalDate nowDate = LocalDate.now();
                     LocalDate nextDate = nowDate.minusDays(3);
@@ -419,9 +401,9 @@ class Soccer
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
 
                     // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    nowDate = LocalDate.parse("2023-05-10");
-                    nextDate = nowDate.plusDays(3);
-                    myTime = LocalTime.parse("11:23:00");
+                    nowDate = LocalDate.parse("2023-05-13");
+                    nextDate = nowDate.minusDays(3);
+                    myTime = LocalTime.parse("19:00:00");
 
                     try {
                         String querySQL = "SELECT *  FROM (\n" +
@@ -434,7 +416,7 @@ class Soccer
                                 "GROUP BY MP2.MATCH_ID, M.DATE, M.ROUND) table1\n" +
                                 "LEFT OUTER JOIN MATCH_PARTICIPANTS AS MP\n" +
                                 "ON table1.MATCH_ID = MP.MATCH_ID AND COUNTRY1 != MP.COUNTRY ) table3 JOIN (SELECT MATCH_ID, TIME FROM MATCH) table4 ON table3.MID = table4.MATCH_ID\n" +
-                                "WHERE (DATE >= '"+nextDate.toString() +"' AND TIME >= '"+myTime.toString()+"') OR DATE > '"+nowDate.toString()+"' AND COUNTRY1 IS NOT NULL AND COUNTRY2 IS NOT NULL)\n" +
+                                "WHERE (DATE >= '"+nextDate.toString() +"' AND TIME >= '"+myTime.toString()+"') OR DATE > '"+nextDate.toString()+"' AND COUNTRY1 IS NOT NULL AND COUNTRY2 IS NOT NULL)\n" +
                                 "    table6 INTERSECT\n" +
                                 "\n" +
                                 "(SELECT * FROM\n" +
@@ -446,12 +428,12 @@ class Soccer
                                 "          GROUP BY MP2.MATCH_ID, M.DATE, M.ROUND) table1\n" +
                                 "             LEFT OUTER JOIN MATCH_PARTICIPANTS AS MP\n" +
                                 "                             ON table1.MATCH_ID = MP.MATCH_ID AND COUNTRY1 != MP.COUNTRY ) table3 JOIN (SELECT MATCH_ID, TIME FROM MATCH) table4 ON table3.MID = table4.MATCH_ID\n" +
-                                "WHERE (DATE <= '"+nowDate.toString() +"' AND TIME <= '"+myTime.toString()+"') OR DATE < '"+nextDate.toString() +"' AND COUNTRY1 IS NOT NULL AND COUNTRY2 IS NOT NULL)";
+                                "WHERE (DATE <= '"+nowDate.toString() +"' AND TIME <= '"+myTime.toString()+"') OR DATE < '"+nowDate.toString() +"' AND COUNTRY1 IS NOT NULL AND COUNTRY2 IS NOT NULL)";
 
                         java.sql.ResultSet rs = statement.executeQuery(querySQL);
-                        System.out.println("Current Date: " +nowDate.toString());
+                        System.out.println("\nCurrent Date: " +nowDate.toString());
                         System.out.println("Current Time: " +myTime.toString());
-                        System.out.println("Matches within previous 72 hours:");
+                        System.out.println("\nMatches within previous 72 hours:");
 
                         while (rs.next()) {
                             int mid = rs.getInt("MID");
@@ -497,7 +479,6 @@ class Soccer
             public void menu2(int sqlCode, String sqlState, Statement statement, String matchIdentifier, String matchCountry){
                 boolean exit = false;
                 Scanner input = new Scanner(System.in);
-                ArrayList<String> balance = new ArrayList<>();
                 while(true){
 
                     try {
@@ -509,7 +490,7 @@ class Soccer
                                 "group by NAME, SPECIFIC_POS, ENTRY_TIME, EXIT_TIME  , table1.SHIRT_NUM\n";
                         java.sql.ResultSet rs = statement.executeQuery(querySQL);
 
-                        System.out.println("The following players from "+matchCountry+" are already entered for match "+matchIdentifier +":");
+                        System.out.println("\nThe following players from "+matchCountry+" are already entered for match "+matchIdentifier +":");
                         System.out.println("Chose those with exit_time = NULL and enter a valid exit_time.");
                         System.out.println("Type [MAX] to quick select end of match. Or another time.");
                         System.out.println("If you do not select MAX, you will be prompted with a substitute player to swap with (if exits, else will fail).");
@@ -518,7 +499,7 @@ class Soccer
                         ArrayList selectable = new ArrayList();
                         int playerNumber =0;
                         while (rs.next()) {
-                            playerNumber++;
+
                             String name = rs.getString("Name");
                             int shirt = rs.getInt("Shirt_num");
                             String pos = rs.getString("Specific_pos");
@@ -527,20 +508,22 @@ class Soccer
                             int yellow = rs.getInt("YELLOW");
                             int red = rs.getInt("RED");
 
-                            if (leave == "null"){
+                            if (leave == null ){
+                                playerNumber++;
                                 ArrayList myTuple = new ArrayList();
                                 myTuple.add(shirt);
                                 myTuple.add(pos);
                                 selectable.add(myTuple);
 
-                                System.out.printf("%d %-16s %d %-16s %-16s %-16s %d %d\n",playerNumber, name, shirt, pos, enter, leave,yellow, red);
+                                System.out.printf("%d %-16s %d %-16s from: %-16s to: %-16s yellow: %d red: %d\n",playerNumber, name, shirt, pos, enter, leave,yellow, red);
                             }else{
-                                System.out.printf("%s %-16s %d %-16s %-16s %-16s %d %d\n","-", name, shirt, pos, enter, leave,yellow, red);
+
+                                System.out.printf("%s %-16s %d %-16s from: %-16s to: %-16s yellow: %d red: %d\n","-", name, shirt, pos, enter, leave,yellow, red);
                             }
 
                         } // while rs.next()
 
-                        System.out.println("Enter the [number] (not shirt number) of the player you want to add exit_time to or [P]\n" +
+                        System.out.println("\nEnter the [number] (not shirt number) of the player you want to add exit_time to or [P]\n" +
                                 "to go to the previous menu.");
                         String option = input.next();
                         if (option.equalsIgnoreCase("p")) {
@@ -554,24 +537,30 @@ class Soccer
                         // get query to know max time for that match
                         querySQL = "SELECT DURATION FROM PLAYED_MATCH WHERE MATCH_ID = " + matchIdentifier ;
                         rs = statement.executeQuery(querySQL);
-                        String maxTime = rs.getString("Duration");
+
+                        String maxTime = null;
+                        while(rs.next()){
+                            maxTime = rs.getString("DURATION");
+                        }
+
 
                         LocalTime maxDuration = LocalTime.parse(maxTime);
-                        LocalTime chosenDuration = LocalTime.parse("59:59:59");
+                        LocalTime chosenDuration = LocalTime.parse("23:59:59");
 
-                        while (maxDuration.isAfter(chosenDuration)){
-                            System.out.println("Enter exit_time ");
+                        while (chosenDuration.isAfter(maxDuration)){
+                            System.out.println("Enter exit_time :");
                             option = input.next();
 
-                            chosenDuration = LocalTime.parse(option);
+
                             if (option.equalsIgnoreCase("p")) {
                                 break;
                             }
                             if (option.equalsIgnoreCase("max")) {
-                                option = maxTime;
+                                chosenDuration = maxDuration;
+                                break;
                             }
-
-                            if (maxDuration.equals(chosenDuration) || maxDuration.isBefore(chosenDuration) ){
+                            chosenDuration = LocalTime.parse(option);
+                            if (chosenDuration.equals(maxDuration) || chosenDuration.isBefore(maxDuration) ){
                                 break;
                             }
                             System.out.println("Bad selection");
@@ -588,7 +577,7 @@ class Soccer
                         if (maxDuration.equals(chosenDuration)){
                             // insert into table with max out
 
-                            String updateSQL = "UPDATE PLAYSIN SET EXIT_TIME = '"+chosenDuration.toString()+"' WHERE SHIRT_NUM = "+addTuple.get(0)+" AND COUNTRY = " + matchCountry;
+                            String updateSQL = "UPDATE PLAYSIN SET EXIT_TIME = '"+chosenDuration.toString()+"' WHERE SHIRT_NUM = "+addTuple.get(0)+" AND COUNTRY = '" + matchCountry +"' AND MATCH_ID = "+ matchIdentifier;
                             statement.executeUpdate(updateSQL);
                             // New exit_time should be applied
 
@@ -635,9 +624,12 @@ class Soccer
 
 
                             String insertSQL = "INSERT INTO PlaysIn (country, shirt_num, match_id, specific_pos, entry_time, exit_time) VALUES ('" +
-                                    addTuple1.get(0)+"',"+addTuple1.get(1).toString()+","+addTuple1.get(2).toString()+",'"+addTuple.get(1)+"','"+chosenDuration.toString()+"', NULL)" ;
+                                    matchCountry+"',"+addTuple1.get(1).toString()+","+matchIdentifier+",'"+addTuple1.get(1)+"','"+chosenDuration.toString()+"', NULL)" ;
 
                             statement.executeUpdate ( insertSQL ) ;
+
+                            String updateSQL = "UPDATE PLAYSIN SET EXIT_TIME = '"+chosenDuration.toString()+"' WHERE SHIRT_NUM = "+addTuple.get(0)+" AND COUNTRY = '" + matchCountry +"' AND MATCH_ID = "+ matchIdentifier;
+                            statement.executeUpdate(updateSQL);
 
 
                         } // else
