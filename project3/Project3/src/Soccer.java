@@ -225,12 +225,6 @@ class Soccer
                     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
 
-                    // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    nowDate = LocalDate.parse("2023-05-12");
-                    nextDate = nowDate.plusDays(3);
-                    myTime = LocalTime.parse("09:00:00");
-
-
                     try {
                         String querySQL = "SELECT *  FROM (\n" +
                                 "SELECT * FROM\n" +
@@ -422,11 +416,6 @@ class Soccer
                     LocalDate nextDate = nowDate.minusDays(3);
                     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
                     LocalTime myTime = LocalTime.parse(LocalTime.now().format(myFormatObj));
-
-                    // HARDCODE DATES FOR EXAMPLES IDK IF NEED TO REMOVE HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                    nowDate = LocalDate.parse("2023-05-13");
-                    nextDate = nowDate.minusDays(3);
-                    myTime = LocalTime.parse("19:00:00");
 
                     try {
                         String querySQL = "SELECT *  FROM (\n" +

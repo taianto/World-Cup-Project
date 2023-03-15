@@ -18,14 +18,14 @@ INSERT INTO Stadium (stadium_name, capacity, location) VALUES
 ;
 
 INSERT INTO Match (match_id, date, time, round, stadium_name) VALUES
-(100, '2023-05-06', '12:00:00', 'group', 'Olympic Stadium'),
-(101, '2023-05-06', '15:00:00', 'group', 'BC Place'),
-(102, '2023-05-07', '12:00:00', 'group', 'McMahon Stadium'),
-(103, '2023-05-07', '15:00:00', 'group', 'Commonwealth Stadium'),
-(104, '2023-05-13', '12:00:00', 'group', 'Rogers Centre'),
-(105, '2023-05-13', '15:00:00', 'group', 'BC Place'),
-(106, '2023-05-14', '12:00:00', 'group', 'Rogers Centre'),
-(107, '2023-05-14', '15:00:00', 'group', 'Commonwealth Stadium')
+(100, '2023-03-06', '12:00:00', 'group', 'Olympic Stadium'),
+(101, '2023-03-06', '15:00:00', 'group', 'BC Place'),
+(102, '2023-03-07', '12:00:00', 'group', 'McMahon Stadium'),
+(103, '2023-03-07', '15:00:00', 'group', 'Commonwealth Stadium'),
+(104, '2023-03-13', '12:00:00', 'group', 'Rogers Centre'),
+(105, '2023-03-15', '15:00:00', 'group', 'BC Place'),
+(106, '2023-03-16', '12:00:00', 'group', 'Rogers Centre'),
+(107, '2023-03-16', '15:00:00', 'group', 'Commonwealth Stadium')
 ;
 
 INSERT INTO Seat (seat_id, stadium_name) VALUES
